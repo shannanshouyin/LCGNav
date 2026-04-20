@@ -1,0 +1,108 @@
+BASE_TASK_CONFIG_PATH: run_r2r/r2r_vlnce.yaml
+SIMULATOR_GPU_IDS: [0]
+TORCH_GPU_ID: 0
+TORCH_GPU_IDS: [0]
+TRAINER_NAME: SS-BEV
+GPU_NUMBERS: 1
+NUM_ENVIRONMENTS: 1
+TENSORBOARD_DIR: data/logs/tensorboard_dirs/
+CHECKPOINT_FOLDER: data/logs/checkpoints/
+EVAL_CKPT_PATH_DIR: data/logs/checkpoints/
+RESULTS_DIR: data/logs/eval_results/
+VIDEO_DIR: data/logs/video/
+
+INFERENCE:
+  SPLIT: test
+  USE_CKPT_CONFIG: False
+  SAMPLE: False
+  CKPT_PATH: '' # REPLACE THIS
+  PREDICTIONS_FILE: ''
+  FORMAT: r2r
+  EPISODE_COUNT: -1
+
+EVAL:
+  USE_CKPT_CONFIG: False
+  SPLIT: val_unseen
+  EPISODE_COUNT: -1
+  CKPT_PATH_DIR: ''
+  fast_eval: False
+
+IL:
+  iters: 1000
+  log_every: 50
+  lr: 1e-5
+  batch_size: 1 # equal to NUM_ENVIRONMENTS
+  ml_weight: 1.0
+  expert_policy: spl
+
+  sample_ratio: 0.75
+  decay_interval: 3000
+  warmup_iters: 500
+  min_lr_ratio: 1.0
+
+  max_traj_len: 15
+  max_text_len: 80
+  loc_noise: 0.5
+  waypoint_aug: False
+  ghost_aug: 0.0
+  back_algo: teleport
+  # back_algo: control
+  tryout: True
+
+  load_from_ckpt: True
+  ckpt_to_load: "ckpt/ckpt.iter9600.pth"
+  # If <= 0, fallback to IL.lr
+  pointnet_lr: 1e-4
+  # Fine-tuning stage (keywords aligned with Pointcloud; BEV align differs — see below):
+  # - warmup: freeze base, train only PointNet/fusion
+  # - align:  load warmup checkpoint via ckpt_to_load, then train like default BEV (all params that receive grads in normal train, plus PointCloud branch); no per-module switches — only MODEL.fix_lang_embedding / fix_pano_embedding apply
+  # - full:   legacy single-stage training (no SFT freezing)
+  finetune_stage: "warmup"
+
+MODEL:
+  task_type: r2r
+
+  policy_name: PolicyViewSelectionBEV
+  NUM_ANGLES: 12
+  pretrained_path: null
+  fix_lang_embedding: False
+  fix_pano_embedding: False
+  use_depth_embedding: True
+  use_sprels: True
+  merge_ghost: True
+  consume_ghost: True
+
+  SAP:
+    mask_visited: True
+
+  POINT_CLOUD:
+    enable_depth_to_pointcloud: True
+    enable_spatial_crop: True
+    max_depth_m: 3.0
+    num_points: 256
+    enable_pointnet: True
+    enable_fusion: True
+    fusion_scope: connected
+    enable_learnable_fusion_lambda: True
+    fusion_lambda_init: 0.5
+    only_candidate_views: True
+    accumulate_mode: mean
+    fps_seed: 0
+    POINTNET:
+      in_dim: 3
+      mlp_channels: [64, 128, 256]
+      global_dim: 256
+      dropout: 0.0
+      use_bn: True
+  
+  spatial_output: False
+  RGB_ENCODER:
+    output_size: 512
+  DEPTH_ENCODER:
+    output_size: 256    
+  VISUAL_DIM:
+    vis_hidden: 768
+    directional: 128
+  INSTRUCTION_ENCODER:
+    bidirectional: True
+
