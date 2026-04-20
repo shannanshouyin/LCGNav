@@ -1,6 +1,6 @@
 # **LCGNav: Local Candidate-Aware Geometric Enhancement for General Topological Planning in Vision-Language Navigation**
 
-![Figure 1](assets\Figure 1.png)
+![Figure 1](./assets/Figure 1.png)
 
 # Abstract
 
@@ -91,6 +91,6 @@ Thanks for their great works!
 
 ## Performance Demonstration
 
-![Table](assets\Table.png)
+![Table](./assets/Table.png)
 
-![Figure 4](assets\Figure 4.png)
+![Figure 4](./assets/Figure 4.png)
