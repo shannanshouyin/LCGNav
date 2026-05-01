@@ -4,7 +4,7 @@
 
 # Abstract
 
-Online topological planning has advanced Vision-Language Navigation in Continuous Environments (VLN-CE) by abstracting complex environments into structured graph representations. However, existing methods still face two key bottlenecks. First, as the global topological map expands, the accumulation of historical visited nodes may dilute the cross-modal planner’s focus on local frontier candidates (ghost nodes), weakening the model’s perception of current exploration directions. Second, standard approaches typically rely on 2D depth maps for local spatial awareness. Since the agent’s navigable distance per step is inherently limited, distant regions in depth maps often introduce spatial redundancy, which can hinder the extraction of effective local features. To address these issues, we propose LCGNav, a modular Local Candidate-Aware Geometric Enhancement framework with strong cross-architecture transferability. LCGNav explicitly converts depth maps into 3D point clouds and applies physical truncation based on the agent’s reachable distance, thereby filtering out distant spatial redundancy and extracting more informative local geometric features. To mitigate this issue, we introduce a Dimension-Preserving Local Focus Fusion mechanism coupled with a transient state degradation strategy. It injects these geometric features exclusively into the currently connected ghost nodes without altering the original topological feature dimensions. Once a ghost node is visited, its enhanced representation is reset to the standard topological feature, which helps reduce the influence of historical trajectories and encourages the planner to focus on the current action space. Experiments on the R2R-CE dataset show that LCGNav serves as a robust cross-architecture enhancement module, improving one or more key metrics of representative baselines (e.g., ETPNav, DGNav, and BEVBert) with low additional training overhead. Notably, when integrated with the ETP-R1 baseline, our framework achieves the best performance among the compared online topological methods on the R2R-CE val-unseen split. 
+Online topological planning has become an effective paradigm for Vision-Language Navigation in Continuous Environments (VLN-CE), but existing methods still suffer from two limitations: redundant local depth information and weakened focus on current frontier candidates as the topological graph grows. To address this, we propose LCGNav, a modular local geometric enhancement framework for topological VLN. LCGNav explicitly converts candidate depth views into 3D point clouds and applies physical truncation based on the agent’s reachable range, enabling more compact local geometric modeling. It further introduces a dimension-preserving local fusion strategy with transient state degradation, so that geometric enhancement is applied only to the currently relevant ghost nodes without changing the original planner interface. Experiments on R2R-CE and RxR-CE show that LCGNav serves as an effective cross-architecture enhancement module, consistently improving multiple key metrics of representative online topological baselines with low additional training cost. When integrated with ETP-R1, LCGNav achieves the best performance among the compared online topological methods on the val-unseen splits of the R2R-CE and RxR-CE benchmarks.
 
 ### Installation
 
@@ -74,6 +74,9 @@ The running commands for ETPNav, BEVBert, and DGNav are as follows:
 ```
 CUDA_VISIBLE_DEVICES=0 bash run_r2r/main.bash train 2333  # training
 CUDA_VISIBLE_DEVICES=0 bash run_r2r/main.bash eval  2333  # evaluation
+
+CUDA_VISIBLE_DEVICES=0 bash run_rxr/main.bash train 2333  # training
+CUDA_VISIBLE_DEVICES=0 bash run_rxr/main.bash eval  2333  # evaluation
 ```
 
 The running commands for ETP-R1 are as follows:
@@ -81,6 +84,9 @@ The running commands for ETP-R1 are as follows:
 ```
 CUDA_VISIBLE_DEVICES=0 bash run_r2r/main.bash dagger 2333  # training
 CUDA_VISIBLE_DEVICES=0 bash run_r2r/main.bash eval  2333  # evaluation
+
+CUDA_VISIBLE_DEVICES=0 bash run_rxr/main.bash dagger 2333  # training
+CUDA_VISIBLE_DEVICES=0 bash run_rxr/main.bash eval  2333  # evaluation
 ```
 
 ## Acknowledge
