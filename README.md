@@ -1,10 +1,10 @@
-# **LCGNav: Local Candidate-Aware Geometric Enhancement for General Topological Planning in Vision-Language Navigation**
+# LCGNav: Local Candidate-Aware Geometric Enhancement for General Topological Planning in Vision-Language Navigation
 
 ![Figure_1](./assets/Figure_1.png)
 
 # Abstract
 
-Online topological planning has become an effective paradigm for Vision-Language Navigation in Continuous Environments (VLN-CE), but existing methods still suffer from two limitations: redundant local depth information and weakened focus on current frontier candidates as the topological graph grows. To address this, we propose LCGNav, a modular local geometric enhancement framework for topological VLN. LCGNav explicitly converts candidate depth views into 3D point clouds and applies physical truncation based on the agent’s reachable range, enabling more compact local geometric modeling. It further introduces a dimension-preserving local fusion strategy with transient state degradation, so that geometric enhancement is applied only to the currently relevant ghost nodes without changing the original planner interface. Experiments on R2R-CE and RxR-CE show that LCGNav serves as an effective cross-architecture enhancement module, consistently improving multiple key metrics of representative online topological baselines with low additional training cost. When integrated with ETP-R1, LCGNav achieves the best performance among the compared online topological methods on the val-unseen splits of the R2R-CE and RxR-CE benchmarks.
+Online topological planning has become an effective paradigm for Vision-Language Navigation in Continuous Environments (VLN-CE), but existing methods still suffer from two limitations: redundant local depth information and weakened focus on current frontier candidates as the topological graph grows. To address this, we propose LCGNav, a modular local geometric enhancement framework for topological VLN. LCGNav explicitly converts candidate depth views into 3D point clouds and applies physical truncation based on the waypoint prediction range, enabling more compact local geometric modeling. It further introduces a dimension-preserving local fusion strategy with transient state degradation, so that geometric enhancement is applied only to the currently relevant ghost nodes without changing the original planner interface. Experiments on R2R-CE and RxR-CE show that LCGNav serves as an effective cross-architecture enhancement module, consistently improving path efficiency across representative online topological baselines with low additional training cost. When integrated with ETP-R1, LCGNav achieves state-of-the-art SPL on R2R-CE and improves all reported metrics on RxR-CE among the compared online topological methods.
 
 ### Installation
 
@@ -63,7 +63,7 @@ Extract such that it has the form `scene_datasets/mp3d/{scene}/{scene}.glb`. The
 
 ## Running
 
-1. The pre-training method and weights are inherited from  [ETPNav](https://github.com/MarSaKi/ETPNav),  [BEVBert](https://github.com/MarSaKi/VLN-BEVBert), [DGNav](https://github.com/shannanshouyin/DGNav), and  [ETP-R1](https://github.com/Cepillar/ETP-R1). Among them, ETPNav, BEVBert, and DGNav share the same pre-trained weights, while ETP-R1 uses enhanced pre-trained weights from a larger model.
+1. The pre-training method and weights are inherited from  [ETPNav](https://github.com/MarSaKi/ETPNav),  [BEVBert](https://github.com/MarSaKi/VLN-BEVBert), [DGNav](https://github.com/shannanshouyin/DGNav), and  [ETP-R1](https://github.com/Cepillar/ETP-R1). 
 
 2. Post-training is performed based on the original fine-tuned weights from ETPNav, BEVBert, DGNav, and ETP-R1.
 
@@ -96,7 +96,5 @@ Our implementations are partially inspired by  [ETPNav](https://github.com/MarSa
 Thanks for their great works!
 
 ## Performance Demonstration
-
-![Table](./assets/Table.png)
 
 ![Figure_4](./assets/Figure_4.png)

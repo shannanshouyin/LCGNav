@@ -1527,20 +1527,23 @@ class RLTrainer(BaseVLNCETrainer):
                 cand_pc_points = None
                 if do_pc_sampling:
                     cand_pc_points = []
+                    pc_sample_cache = {}
                     for k, img_idx in enumerate(wp_outputs["cand_img_idxes"][i]):
-                        depth_map = depth_feats_maps[i, int(img_idx), :, :, 0]
-                        sampled_points = sample_pointcloud_from_depth(
-                            depth_map,
-                            hfov_deg=depth_hfov,
-                            normalize_depth=normalize_depth,
-                            min_depth=depth_min,
-                            max_depth=depth_max,
-                            enable_spatial_crop=enable_spatial_crop,
-                            max_depth_m=max_depth_m,
-                            num_points=num_points_pc,
-                            seed=int(fps_seed_base + stepk * 1000 + i * 10 + k),
-                        )
-                        cand_pc_points.append(sampled_points)
+                        img_idx = int(img_idx)
+                        if img_idx not in pc_sample_cache:
+                            depth_map = depth_feats_maps[i, img_idx, :, :, 0]
+                            pc_sample_cache[img_idx] = sample_pointcloud_from_depth(
+                                depth_map,
+                                hfov_deg=depth_hfov,
+                                normalize_depth=normalize_depth,
+                                min_depth=depth_min,
+                                max_depth=depth_max,
+                                enable_spatial_crop=enable_spatial_crop,
+                                max_depth_m=max_depth_m,
+                                num_points=num_points_pc,
+                                seed=int(fps_seed_base + stepk * 1000 + i * 10 + k),
+                            )
+                        cand_pc_points.append(pc_sample_cache[img_idx])
                 self.gmaps[i].update_graph(
                     prev_vp[i], stepk + 1,
                     cur_vp[i], cur_pos[i], cur_embeds,
