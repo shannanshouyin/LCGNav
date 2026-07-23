@@ -63,13 +63,13 @@ Extract such that it has the form `scene_datasets/mp3d/{scene}/{scene}.glb`. The
 
 ## Running
 
-1. The pre-training method and weights are inherited from  [ETPNav](https://github.com/MarSaKi/ETPNav),  [BEVBert](https://github.com/MarSaKi/VLN-BEVBert), [DGNav](https://github.com/shannanshouyin/DGNav), and  [ETP-R1](https://github.com/Cepillar/ETP-R1). 
+1. The pre-training method and weights are inherited from  [ETPNav](https://github.com/MarSaKi/ETPNav),  [BEVBert](https://github.com/MarSaKi/VLN-BEVBert) and  [ETP-R1](https://github.com/Cepillar/ETP-R1). 
 
-2. Post-training is performed based on the original fine-tuned weights from ETPNav, BEVBert, DGNav, and ETP-R1.
+2. Post-training is performed based on the original fine-tuned weights from ETPNav, BEVBert and ETP-R1.
 
 ​	Use `main.bash` for `Training/Evaluation/Inference with a single GPU or with multiple GPUs on a single node.` Simply adjust the arguments of the bash scripts.
 
-The running commands for ETPNav, BEVBert, and DGNav are as follows:
+The running commands for ETPNav and BEVBert are as follows:
 
 ```
 CUDA_VISIBLE_DEVICES=0 bash run_r2r/main.bash train 2333  # training
